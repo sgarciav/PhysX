@@ -36,7 +36,7 @@
 /*-Revision----------------------\
 | At: 10/3/99 5:51:37 PM
 |
-| Changed vector container from 
+| Changed vector container from
 | storing val to refernce.
 \-------------------------------*/
 /*-Revision----------------------\
@@ -46,19 +46,19 @@
 |
 \-------------------------------*/
 /*-Revision----------------------\
-| At: 6/19/02 
+| At: 6/19/02
 | added multiline comments.
 |
 |
 \-------------------------------*/
 /*-Revision----------------------\
-| At: 5/19/03 
-| fixed commend bug with 
+| At: 5/19/03
+| fixed commend bug with
 | file > 0xffff chars.
 |
 \-------------------------------*/
 /*-Revision----------------------\
-| At: 19/10/09 
+| At: 19/10/09
 | removed encryption
 | converted to FILE * usage.
 |
@@ -141,7 +141,7 @@ bool ODBlock::loadScript(SampleFramework::File * fp)			//loads block from script
 			}
 			else
 			{
-				if (state != WAIT_IDENT && state != IDENT) 
+				if (state != WAIT_IDENT && state != IDENT)
 				{
 					lastError = ODSyntaxError(ODSyntaxError::ODSE_UNEX_QUOTE).asString();
 					return false;
@@ -179,8 +179,8 @@ bool ODBlock::loadScript(SampleFramework::File * fp)			//loads block from script
 				case '/':
 					while(fgetc(fp) != '/') ; //read and discard comment
 					break;
-				case '{': 
-					if (state != WAIT_BLOCK && state != IDENT) 
+				case '{':
+					if (state != WAIT_BLOCK && state != IDENT)
 					{
 						lastError = ODSyntaxError(ODSyntaxError::ODSE_UNEX_OBRACE).asString();//identifier can be followed by block w/o whitespace inbetween
 						return false;
@@ -188,7 +188,7 @@ bool ODBlock::loadScript(SampleFramework::File * fp)			//loads block from script
 					state = BLOCK;
 					break;
 				case '}':
-					if (state != BLOCK) 
+					if (state != BLOCK)
 					{
 						lastError = ODSyntaxError(ODSyntaxError::ODSE_UNEX_CBRACE).asString();
 						return false;
@@ -208,7 +208,7 @@ bool ODBlock::loadScript(SampleFramework::File * fp)			//loads block from script
 					}
 					else
 					{
-						if (state != WAIT_IDENT && state != IDENT) 
+						if (state != WAIT_IDENT && state != IDENT)
 						{
 							lastError = ODSyntaxError(ODSyntaxError::ODSE_UNEX_LITERAL).asString();
 							return false;
@@ -270,30 +270,30 @@ bool ODBlock::saveScript(SampleFramework::File * fp,bool bQuote)
 	int j;
 	//save the script in said file  should be stream!!
 	for (j=0; j<tablevel-1; j++)
-		retVal = fprintf(fp,"\t"); 
-	if (bQuote) 
+		retVal = fprintf(fp,"\t");
+	if (bQuote)
 		retVal = fprintf(fp,"\"");
 	if (identifier)
 		retVal = fprintf(fp, "%s", identifier);
 	else
 		retVal = fprintf(fp,"_noname");
-	if (bQuote) 
+	if (bQuote)
 		retVal = fprintf(fp,"\"");
 	if (!bTerminal)
 	{
 		retVal =fprintf(fp,"\n");
-		for (j=0; j<tablevel; j++) 
-			retVal = fprintf(fp,"\t");	
+		for (j=0; j<tablevel; j++)
+			retVal = fprintf(fp,"\t");
 		retVal = fprintf(fp,"{\n");
-		tablevel ++;		
+		tablevel ++;
 		for (physx::PxU32 i = 0; i < subBlocks.size(); ++i)
 			(subBlocks[i])->saveScript(fp,bQuote);
 		tablevel --;
-		for (j=0; j<tablevel; j++) 
+		for (j=0; j<tablevel; j++)
 			retVal = fprintf(fp,"\t");
 		retVal = fprintf(fp,"}\n");
 	}
-	else 
+	else
 		retVal = fprintf(fp,";\n");
 
 	PX_ASSERT( retVal >= 0 );
@@ -344,7 +344,7 @@ bool ODBlock::moreTerminals()						//returns true if more terminals are availabl
 	return  termiter != subBlocks.end();			//return true if not the end yet
 }
 
-char * ODBlock::nextTerminal()								//returns a pointer to the next terminal string.  
+char * ODBlock::nextTerminal()								//returns a pointer to the next terminal string.
 {
 	char *  s = (*termiter)->identifier;
 	++termiter;
@@ -360,7 +360,7 @@ bool ODBlock::moreSubBlocks()						//returns true if more sub blocks are availab
 {
 	return  termiter != subBlocks.end();			//return true if not the end yet
 }
-ODBlock * ODBlock::nextSubBlock()					//returns a pointer to the next sub block.  
+ODBlock * ODBlock::nextSubBlock()					//returns a pointer to the next sub block.
 {
 	ODBlock * b =  (*termiter);
 	++termiter;
@@ -375,7 +375,7 @@ ODBlock * ODBlock::getBlock(const char * ident,bool bRecursiveSearch)		//returns
 		return this;
 	else
 	{
-		if (bTerminal) 
+		if (bTerminal)
 			return NULL;
 		else
 		{
@@ -384,7 +384,7 @@ ODBlock * ODBlock::getBlock(const char * ident,bool bRecursiveSearch)		//returns
 				if (bRecursiveSearch)
 				{
 					b = (*i)->getBlock(ident,true);
-					if (b) 
+					if (b)
 						return b;
 				}
 				else
@@ -406,7 +406,7 @@ bool ODBlock::getBlockInt(const char * ident, int* p, unsigned count)		//reads b
 	{
 		temp->reset();
 		for(; count && temp->moreTerminals(); --count)
-			if(p)	
+			if(p)
 				sscanf(temp->nextTerminal(),"%d", p++);
 
 		return !count;
@@ -422,7 +422,7 @@ bool ODBlock::getBlockU32(const char * ident, physx::PxU32* p, unsigned count)		
 	{
 		temp->reset();
 		for(; count && temp->moreTerminals(); --count)
-			if(p)	
+			if(p)
 				sscanf(temp->nextTerminal(),"%u", p++);
 
 		return !count;
@@ -435,11 +435,11 @@ bool ODBlock::getBlockString(const char *  ident, const char **  p)		//of form:	
 	ODBlock * temp = getBlock(ident);
 	if (temp)
 	{
-		temp->reset(); 
-		if (temp->moreTerminals())	
-		{ 
+		temp->reset();
+		if (temp->moreTerminals())
+		{
 			*p = temp->nextTerminal();
-			return true; 
+			return true;
 		}
 	}
 	return false;
@@ -449,11 +449,11 @@ bool ODBlock::getBlockStrings(const char *  ident, const char **  p, unsigned nu
 	ODBlock * temp= getBlock(ident);
 	if (temp)
 	{
-		temp->reset(); 
+		temp->reset();
 		for (unsigned int n=0; n<numStrings; n++)
 		{
-			if (temp->moreTerminals())	
-			{ 
+			if (temp->moreTerminals())
+			{
 				p[n] = temp->nextTerminal();
 			}
 		}
@@ -465,11 +465,11 @@ bool ODBlock::getBlockFloat(const char *  ident, float *p)		//of form:				ident{
 	ODBlock * temp = getBlock(ident);
 	if (temp)
 	{
-		temp->reset(); 
-		if (temp->moreTerminals())	
-		{ 
-			if(p) sscanf(temp->nextTerminal(),"%f",p); 
-			return true; 
+		temp->reset();
+		if (temp->moreTerminals())
+		{
+			if(p) sscanf(temp->nextTerminal(),"%f",p);
+			return true;
 		}
 	}
 	return false;
@@ -498,7 +498,7 @@ bool ODBlock::addBlockFloats(const char * ident, float *f, unsigned  numfloats)
 
 	for (unsigned i = 0; i < numfloats; i++)
 	{
-		ODBlock & floatBlock = *new ODBlock(); 
+		ODBlock & floatBlock = *new ODBlock();
 		newBlock.addStatement(floatBlock);
 
 		//_gcvt_s(buf, 32, f[i],5); //gcc doesn't support this
@@ -519,7 +519,7 @@ bool ODBlock::addBlockInts(const char * ident, int *f, unsigned  numInts)
 
 	for (unsigned i = 0; i < numInts; i++)
 	{
-		ODBlock & floatBlock = *new ODBlock(); 
+		ODBlock & floatBlock = *new ODBlock();
 		newBlock.addStatement(floatBlock);
 		//_itoa_s(f[i], buf, 32, 10); //gcc doesn't support this
 		sprintf(buf, "%d", f[i]);
@@ -527,4 +527,3 @@ bool ODBlock::addBlockInts(const char * ident, int *f, unsigned  numInts)
 	}
 	return true;
 }
-
