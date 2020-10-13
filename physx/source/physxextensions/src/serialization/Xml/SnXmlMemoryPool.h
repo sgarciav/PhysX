@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 #ifndef PX_XML_MEMORYPOOL_H
 #define PX_XML_MEMORYPOOL_H
 
@@ -33,11 +33,11 @@
 #include "PsArray.h"
 #include "PxProfileAllocatorWrapper.h"
 
-namespace physx { 
+namespace physx {
 
 	using namespace physx::profile;
 
-	/** 
+	/**
 	 *	Linked list used to store next node ptr.
 	 */
 	struct SMemPoolNode
@@ -63,7 +63,7 @@ namespace physx {
 		TPxU8PtrList mAllMemory;
 		SMemPoolNode* mFirstFreeNode;
 	public:
-		CMemoryPool(PxProfileAllocatorWrapper& inWrapper) 
+		CMemoryPool(PxProfileAllocatorWrapper& inWrapper)
 			: mWrapper( inWrapper )
 			, mAllMemory( inWrapper )
 			, mFirstFreeNode( NULL )
@@ -72,7 +72,7 @@ namespace physx {
 		{
 			TPxU8PtrList::ConstIterator theEnd = mAllMemory.end();
 			for ( TPxU8PtrList::ConstIterator theIter = mAllMemory.begin();
-				theIter != theEnd; 
+				theIter != theEnd;
 				++theIter )
 			{
 				PxU8* thePtr = *theIter;
@@ -120,7 +120,7 @@ namespace physx {
 	};
 
 	/**
-	 *	Manages variable sized allocations.  
+	 *	Manages variable sized allocations.
 	 *	Keeps track of freed allocations in a insertion sorted
 	 *	list.  Allocating new memory traverses the list linearly.
 	 *	This object will split nodes if the node is more than
@@ -134,11 +134,11 @@ namespace physx {
 		TPxU8PtrList mAllMemory;
 		TFreeNodeMap mFreeNodeMap;
 		PxU32 mMinAllocationSize;
-		
+
 		CVariableMemoryPool &operator=(const CVariableMemoryPool &);
 
 	public:
-		CVariableMemoryPool(PxProfileAllocatorWrapper& inWrapper, PxU32 inMinAllocationSize = 0x20 ) 
+		CVariableMemoryPool(PxProfileAllocatorWrapper& inWrapper, PxU32 inMinAllocationSize = 0x20 )
 			: mWrapper( inWrapper )
 			, mAllMemory( inWrapper )
 			, mFreeNodeMap( inWrapper)
@@ -149,7 +149,7 @@ namespace physx {
 		{
 			TPxU8PtrList::ConstIterator theEnd = mAllMemory.end();
 			for ( TPxU8PtrList::ConstIterator theIter = mAllMemory.begin();
-				theIter != theEnd; 
+				theIter != theEnd;
 				++theIter )
 			{
 				PxU8* thePtr = *theIter;
@@ -237,7 +237,7 @@ namespace physx {
 	 *	This doesn't mark the memory with the size of the allocated memory thus
 	 *	allowing much more efficient allocation of small items.  For large enough
 	 *	allocations, it does mark the size.
-	 *	
+	 *
 	 *	When using as a general memory manager, you need to wrap this class with
 	 *	something that actually does mark the returned allocation with the size
 	 *	of the allocation.
@@ -337,7 +337,7 @@ namespace physx {
 		}
 
 		/**
-		 *	deallocate an object calling the destructor on the object.  
+		 *	deallocate an object calling the destructor on the object.
 		 *	This *must* be the concrete type, it cannot be a generic type.
 		 */
 		template<typename TObjectType>
@@ -346,7 +346,7 @@ namespace physx {
 			inObject->~TObjectType();
 			deallocate( reinterpret_cast<PxU8*>(inObject) );
 		}
-		
+
 		/**
 		 *	allocate an object.  Calls constructor on the new memory.
 		 */
@@ -358,7 +358,7 @@ namespace physx {
 		}
 
 		/**
-		 *	deallocate an object calling the destructor on the object.  
+		 *	deallocate an object calling the destructor on the object.
 		 *	This *must* be the concrete type, it cannot be a generic type.
 		 */
 		template<typename TObjectType>
