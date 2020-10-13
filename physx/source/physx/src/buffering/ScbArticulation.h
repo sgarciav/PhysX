@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #ifndef PX_PHYSICS_SCB_ARTICULATION
 #define PX_PHYSICS_SCB_ARTICULATION
@@ -73,8 +73,8 @@ struct ArticulationBuffer
 class Articulation : public Base
 {
 //= ATTENTION! =====================================================================================
-// Changing the data layout of this class breaks the binary serialization format.  See comments for 
-// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData 
+// Changing the data layout of this class breaks the binary serialization format.  See comments for
+// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData
 // function.  If the modification is made on a custom branch, please change PX_BINARY_SERIAL_VERSION
 // accordingly.
 //==================================================================================================
@@ -107,10 +107,10 @@ public:
 	SCB_MEMBER(Articulation, mArticulation, SolverIterationCounts, PxU16, 5)
 	SCB_MEMBER(Articulation, mArticulation, FreezeThreshold, PxReal, 6)
 #else
-	PX_INLINE		PxU32		getInternalDriveIterations() const				{ return read<Buf::BF_InternalDriveIterations>();	}	
+	PX_INLINE		PxU32		getInternalDriveIterations() const				{ return read<Buf::BF_InternalDriveIterations>();	}
 	PX_INLINE		void		setInternalDriveIterations(const PxU32 v)		{ write<Buf::BF_InternalDriveIterations>(v);		}
 
-	PX_INLINE		PxU32		getExternalDriveIterations() const				{ return read<Buf::BF_ExternalDriveIterations>();	}	
+	PX_INLINE		PxU32		getExternalDriveIterations() const				{ return read<Buf::BF_ExternalDriveIterations>();	}
 	PX_INLINE		void		setExternalDriveIterations(const PxU32 v)		{ write<Buf::BF_ExternalDriveIterations>(v);		}
 
 	PX_INLINE		PxU32		getMaxProjectionIterations() const				{ return read<Buf::BF_MaxProjectionIterations>();	}
@@ -166,7 +166,7 @@ private:
 	PxReal						mBufferedWakeCounter;
 	PxU8						mBufferedIsSleeping;
 	PxArticulationFlags			mBufferedArticulationFlags;
-	
+
 	PX_FORCE_INLINE	const Buf*	getArticulationBuffer()	const	{ return reinterpret_cast<const Buf*>(getStream()); }
 	PX_FORCE_INLINE	Buf*		getArticulationBuffer()			{ return reinterpret_cast<Buf*>(getStream()); }
 
@@ -286,7 +286,7 @@ PX_FORCE_INLINE void Articulation::putToSleep()
 PX_FORCE_INLINE	void Articulation::initBufferedState()
 {
 	PX_ASSERT(mBufferedIsSleeping);  // this method is only meant to get called when an object is added to the scene
-	
+
 	if(getWakeCounter() == 0.0f)
 		mBufferedIsSleeping = 1;
 	else
@@ -315,7 +315,7 @@ PX_FORCE_INLINE	void Articulation::clearBufferedSleepStateChange()
 PX_INLINE void Articulation::syncState()
 {
 	// see comments in Body::syncState
-	PX_ASSERT(	(getControlState() != ControlState::eREMOVE_PENDING) || 
+	PX_ASSERT(	(getControlState() != ControlState::eREMOVE_PENDING) ||
 				(mBufferedIsSleeping && (!isBuffered(Buf::BF_WakeUp | Buf::BF_PutToSleep))) );
 
 	const PxU32 flags = getBufferFlags();
@@ -400,7 +400,7 @@ PX_INLINE void Articulation::syncState()
 	// postconditions
 	//
 	PX_ASSERT((getControlState() != ControlState::eREMOVE_PENDING) || mBufferedIsSleeping);  // nothing in this method should change this
-	// 
+	//
 	// postconditions
 	// --------------
 
