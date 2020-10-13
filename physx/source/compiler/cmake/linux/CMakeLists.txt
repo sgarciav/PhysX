@@ -32,7 +32,7 @@ SET(CLANG_WARNINGS "-ferror-limit=0 -Wall -Wextra -Werror -Wstrict-aliasing=2 -W
 SET(GCC_WARNINGS "-Wall -Werror -Wno-invalid-offsetof -Wno-uninitialized")
 
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	# using Clang	  
+	# using Clang
 	SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -fstrict-aliasing ${CLANG_WARNINGS}" CACHE INTERAL "PhysX CXX")
 ELSEIF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
 	SET(PHYSX_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -fno-strict-aliasing ${GCC_WARNINGS}" CACHE INTERAL "PhysX CXX")
@@ -107,14 +107,14 @@ ELSE()
 	SET_PROPERTY(TARGET FastXml PROPERTY FOLDER "PhysX SDK")
 	SET_PROPERTY(TARGET PhysXPvdSDK PROPERTY FOLDER "PhysX SDK")
 	SET_PROPERTY(TARGET PhysXTask PROPERTY FOLDER "PhysX SDK")
-	SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")	
-	
+	SET_PROPERTY(TARGET PhysXFoundation PROPERTY FOLDER "PhysX SDK")
+
 	SET(PHYSXDISTRO_LIBS PhysXFoundation PhysX PhysXCharacterKinematic PhysXPvdSDK PhysXCommon PhysXCooking PhysXExtensions PhysXVehicle)
-	
+
 	INSTALL(
 		TARGETS ${PHYSXDISTRO_LIBS}
 		EXPORT PhysXSDK
-		DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>	
+		DESTINATION $<$<CONFIG:debug>:${PX_ROOT_LIB_DIR}/debug>$<$<CONFIG:release>:${PX_ROOT_LIB_DIR}/release>$<$<CONFIG:checked>:${PX_ROOT_LIB_DIR}/checked>$<$<CONFIG:profile>:${PX_ROOT_LIB_DIR}/profile>
 		)
-	
+
 ENDIF()
