@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 
 #include "cooking/PxCooking.h"
@@ -97,7 +97,7 @@ bool BigConvexDataBuilder::save(PxOutputStream& stream, bool platformMismatch) c
 	// It's an array of bytes so we don't care about 'PlatformMismatch'
 	stream.write(mSVM->mData.mSamples, sizeof(PxU8)*mSVM->mData.mNbSamples*2);
 
-	if(!saveValencies(stream, platformMismatch))	
+	if(!saveValencies(stream, platformMismatch))
 		return false;
 
 	return true;
@@ -107,7 +107,7 @@ bool BigConvexDataBuilder::save(PxOutputStream& stream, bool platformMismatch) c
 // compute valencies for each vertex
 // we dont compute the edges again here, we have them temporary stored in mHullDataFacesByAllEdges8 structure
 bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder)
-{	
+{
 	// Create valencies
 	const PxU32 numVertices = meshBuilder.mHull->mNbHullVertices;
 	mSVM->mData.mNbVerts = numVertices;
@@ -129,7 +129,7 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 		const PxU32 numVerts = meshBuilder.mHullDataPolygons[i].mNbVerts;
 		const PxU8* Data = meshBuilder.mHullDataVertexData8 + meshBuilder.mHullDataPolygons[i].mVRef8;
 		for (PxU32 j = 0; j < numVerts; j++)
-		{			
+		{
 			mSVM->mData.mValencies[Data[j]].mCount++;
 			PX_ASSERT(mSVM->mData.mValencies[Data[j]].mCount != 0xffff);
 		}
@@ -142,7 +142,7 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 	mSVM->mData.mNbAdjVerts = PxU32(mSVM->mData.mValencies[mSVM->mData.mNbVerts - 1].mOffset + mSVM->mData.mValencies[mSVM->mData.mNbVerts - 1].mCount);
 	PX_ASSERT(mSVM->mData.mNbAdjVerts == PxU32(meshBuilder.mHull->mNbEdges * 2));
 
-	// Create adjacent vertices	
+	// Create adjacent vertices
 	// parse the polygons and its vertices
 	for (PxU32 i = 0; i < meshBuilder.mHull->mNbPolygons; i++)
 	{
@@ -152,19 +152,19 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 		{
 			const PxU8 vertexIndex = Data[j];
 			PxU8 numAdj = 0;
-			// if we did not parsed this vertex, traverse to the adjacent face and then 
+			// if we did not parsed this vertex, traverse to the adjacent face and then
 			// again to next till we hit back the original polygon
 			if(vertexMarker[vertexIndex] == 0)
 			{
 				PxU8 prevIndex = Data[(j+1)%numVerts];
 				mSVM->mData.mAdjacentVerts[mSVM->mData.mValencies[vertexIndex].mOffset++] = prevIndex;
 				numAdj++;
-				// now traverse the neighbors	
+				// now traverse the neighbors
 				const PxU16 edgeIndex = PxU16(meshBuilder.mEdgeData16[meshBuilder.mHullDataPolygons[i].mVRef8 + j]*2);
 				PxU8 n0 = meshBuilder.mHullDataFacesByEdges8[edgeIndex];
 				PxU8 n1 = meshBuilder.mHullDataFacesByEdges8[edgeIndex + 1];
-				
-				PxU32 neighborPolygon = n0 == i ? n1 : n0;				
+
+				PxU32 neighborPolygon = n0 == i ? n1 : n0;
 				while (neighborPolygon != i)
 				{
 					PxU32 numNeighborVerts = meshBuilder.mHullDataPolygons[neighborPolygon].mNbVerts;
@@ -216,16 +216,16 @@ bool BigConvexDataBuilder::computeValencies(const ConvexHullBuilder& meshBuilder
 void BigConvexDataBuilder::precomputeSample(const PxVec3& dir, PxU8& startIndex_, float negativeDir)
 {
 	PxU8 startIndex = startIndex_;
-	
+
 	const PxVec3* verts = mHullVerts;
 	const Valency* valency = mSVM->mData.mValencies;
 	const PxU8* adjacentVerts = mSVM->mData.mAdjacentVerts;
 
 	// we have only 256 verts
-	PxU32 smallBitMap[8] = {0,0,0,0,0,0,0,0};	
-	
+	PxU32 smallBitMap[8] = {0,0,0,0,0,0,0,0};
+
 	float minimum = negativeDir * verts[startIndex].dot(dir);
-	PxU32 initialIndex = startIndex;	
+	PxU32 initialIndex = startIndex;
 	do
 	{
 		initialIndex = startIndex;
@@ -233,8 +233,8 @@ void BigConvexDataBuilder::precomputeSample(const PxVec3& dir, PxU8& startIndex_
 		const PxU32 offset = valency[startIndex].mOffset;
 
 		for (PxU32 a = 0; a < numNeighbours; ++a)
-		{			
-			const PxU8 neighbourIndex = adjacentVerts[offset + a];			
+		{
+			const PxU8 neighbourIndex = adjacentVerts[offset + a];
 			const float dist = negativeDir * verts[neighbourIndex].dot(dir);
 			if (dist < minimum)
 			{
@@ -249,13 +249,13 @@ void BigConvexDataBuilder::precomputeSample(const PxVec3& dir, PxU8& startIndex_
 			}
 		}
 
-	} while (startIndex != initialIndex);	
+	} while (startIndex != initialIndex);
 
 	startIndex_ = startIndex;
 }
 
 //////////////////////////////////////////////////////////////////////////
-// Precompute the min/max vertices for cube directions. 
+// Precompute the min/max vertices for cube directions.
 bool BigConvexDataBuilder::precompute(PxU32 subdiv)
 {
 	mSVM->mData.mSubdiv = Ps::to16(subdiv);
@@ -306,7 +306,7 @@ bool BigConvexDataBuilder::precompute(PxU32 subdiv)
 			{
 				precomputeSample(dirs[dStep], startIndex[dStep], 1.0f);
 				precomputeSample(dirs[dStep], startIndex2[dStep], -1.0f);
-			}			
+			}
 
 			// decompose the vector results into face directions
 			for (PxU32 k = 0; k < 6; k++)
