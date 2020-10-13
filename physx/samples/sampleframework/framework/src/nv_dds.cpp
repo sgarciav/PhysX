@@ -305,8 +305,9 @@ bool CDDSImage::load(string filename, bool flipImage)
     // open file
 	SampleRenderer::File *fp = 0;
 	PxToolkit::fopen_s(&fp, filename.c_str(), "rb");
-    if (fp == NULL)
+    if (fp == NULL) {
         return false;
+    }
 
 	bool success = load(fp, flipImage);
 
@@ -522,8 +523,9 @@ bool CDDSImage::save(std::string filename, bool flipImage)
     // open file
 	SampleRenderer::File* fp = 0;
 	PxToolkit::fopen_s(&fp, filename.c_str(), "wb");
-    if (fp == NULL)
+    if (fp == NULL) {
         return false;
+    }
 
 	bool result = save(fp, flipImage);
 

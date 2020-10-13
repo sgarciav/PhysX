@@ -371,31 +371,35 @@ ODBlock * ODBlock::nextSubBlock()					//returns a pointer to the next sub block.
 ODBlock * ODBlock::getBlock(const char * ident,bool bRecursiveSearch)		//returns block with given identifier, or NULL.
 {
 	ODBlock * b;
-	if (identifier && ident && strncmp(identifier,ident,OD_MAXID) == 0)
+	if (identifier && ident && strncmp(identifier,ident,OD_MAXID) == 0) {
 		return this;
+    }
 	else
 	{
-		if (bTerminal)
+		if (bTerminal) {
 			return NULL;
+        }
 		else
 		{
 			ODBlockList::Iterator i;
-			for (i =  subBlocks.begin(); i != subBlocks.end(); ++i)
+			for (i =  subBlocks.begin(); i != subBlocks.end(); ++i) {
 				if (bRecursiveSearch)
 				{
 					b = (*i)->getBlock(ident,true);
-					if (b)
+					if (b) {
 						return b;
+                    }
 				}
 				else
 				{
-					if ((*i)->identifier && ident && strncmp((*i)->identifier,ident,OD_MAXID) == 0)
+					if ((*i)->identifier && ident && strncmp((*i)->identifier,ident,OD_MAXID) == 0) {
 						return (*i);
+                    }
 				}
-				return NULL;
+            }
+            return NULL;
 		}
 	}
-
 }
 
 // hig level macro functs, return true on success:
