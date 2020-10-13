@@ -1,0 +1,6 @@
+*.a
+linux-checked/
+linux-release/
+linux-profile/
+linux-debug/
+PxConfig.h
