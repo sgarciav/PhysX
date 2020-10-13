@@ -37,6 +37,9 @@
 
 #include "PxClient.h"
 
+#if __has_warning("-Wanon-enum-enum-conversion")
+#pragma clang diagnostic ignored "-Wanon-enum-enum-conversion" // warning: bitwise operation between different enumeration types ('XXXFlags_' and 'XXXFlagsPrivate_') is deprecated
+#endif
 
 namespace physx
 {
@@ -188,6 +191,7 @@ PX_INLINE void Actor::syncState()
 //		syncClientBehaviorFlags();
 	}
 #else
+
 	if(flags & (Buf::BF_ActorFlags|Buf::BF_DominanceGroup/*|Buf::BF_ClientBehaviorFlags*/))
 	{
 		Core& core = getActorCore();
