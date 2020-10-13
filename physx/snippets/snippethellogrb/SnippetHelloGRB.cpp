@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 // ****************************************************************************
 // This snippet illustrates simple use of physx
@@ -96,7 +96,7 @@ void initPhysics(bool /*interactive*/)
 	gPvd->connect(*transport, PxPvdInstrumentationFlag::ePROFILE);
 
 	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(), true, gPvd);
-	
+
 	PxCudaContextManagerDesc cudaContextManagerDesc;
 
 #ifdef RENDER_SNIPPET
@@ -105,7 +105,7 @@ void initPhysics(bool /*interactive*/)
 #else
 	cudaContextManagerDesc.interopMode = PxCudaInteropMode::NO_INTEROP;
 #endif
-	
+
 
 	gCudaContextManager = PxCreateCudaContextManager(*gFoundation, cudaContextManagerDesc, PxGetProfilerCallback());	//Create the CUDA context manager, required for GRB to dispatch CUDA kernels.
 	if( gCudaContextManager )
@@ -115,7 +115,7 @@ void initPhysics(bool /*interactive*/)
 			gCudaContextManager->release();
 			gCudaContextManager = NULL;
 		}
-	}	
+	}
 
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
@@ -129,7 +129,7 @@ void initPhysics(bool /*interactive*/)
 	sceneDesc.flags |= PxSceneFlag::eENABLE_PCM;			//Enable PCM. PCM NP is supported on GPU. Legacy contact gen will fall back to CPU
 	sceneDesc.flags |= PxSceneFlag::eENABLE_STABILIZATION;	//Improve solver stability by enabling post-stabilization.
 	sceneDesc.broadPhaseType = PxBroadPhaseType::eGPU;		//Enable GPU broad phase. Without this set, broad phase will run on the CPU.
-	sceneDesc.gpuMaxNumPartitions = 8;						//Defines the maximum number of partitions used by the solver. Only power-of-2 values are valid. 
+	sceneDesc.gpuMaxNumPartitions = 8;						//Defines the maximum number of partitions used by the solver. Only power-of-2 values are valid.
 															//A value of 8 generally gives best balance between performance and stability.
 
 	gScene = gPhysics->createScene(sceneDesc);
@@ -163,7 +163,7 @@ void stepPhysics(bool /*interactive*/)
 	gScene->simulate(1.0f/60.0f);
 	gScene->fetchResults(true);
 }
-	
+
 void cleanupPhysics(bool /*interactive*/)
 {
 	PX_RELEASE(gScene);
@@ -179,7 +179,7 @@ void cleanupPhysics(bool /*interactive*/)
 
 	PX_RELEASE(gCudaContextManager);
 	PX_RELEASE(gFoundation);
-	
+
 	printf("SnippetHelloWorld done.\n");
 }
 
