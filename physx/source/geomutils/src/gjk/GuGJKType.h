@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #ifndef GU_GJKTYPE_H
 #define GU_GJKTYPE_H
@@ -48,13 +48,13 @@ namespace Gu
 
 	struct GjkConvexBase
 	{
-		
+
 		GjkConvexBase(const ConvexV& convex) : mConvex(convex){}
-		PX_FORCE_INLINE Ps::aos::FloatV	getMinMargin()		const { return mConvex.getMinMargin();		} 
+		PX_FORCE_INLINE Ps::aos::FloatV	getMinMargin()		const { return mConvex.getMinMargin();		}
 		PX_FORCE_INLINE Ps::aos::BoolV	isMarginEqRadius()	const { return mConvex.isMarginEqRadius();	}
 		PX_FORCE_INLINE bool			getMarginIsRadius()	const { return mConvex.getMarginIsRadius();	}
 		PX_FORCE_INLINE Ps::aos::FloatV	getMargin()			const { return mConvex.getMargin();			}
-		
+
 
 		template <typename Convex>
 		PX_FORCE_INLINE const Convex& getConvex() const { return static_cast<const Convex&>(mConvex); }
@@ -65,8 +65,8 @@ namespace Gu
 		virtual Ps::aos::FloatV getSweepMargin() const = 0;
 		virtual Ps::aos::Vec3V	getCenter() const = 0;
 		virtual ~GjkConvexBase(){}
-	
-	
+
+
 	private:
 		GjkConvexBase& operator = (const GjkConvexBase&);
 	protected:
