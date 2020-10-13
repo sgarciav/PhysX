@@ -25,7 +25,7 @@
 //
 // Copyright (c) 2008-2019 NVIDIA Corporation. All rights reserved.
 // Copyright (c) 2004-2008 AGEIA Technologies, Inc. All rights reserved.
-// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.  
+// Copyright (c) 2001-2004 NovodeX AG. All rights reserved.
 
 #ifndef PX_PHYSICS_SCB_FSACTOR
 #define PX_PHYSICS_SCB_FSACTOR
@@ -66,8 +66,8 @@ protected:
 class Actor : public Base
 {
 //= ATTENTION! =====================================================================================
-// Changing the data layout of this class breaks the binary serialization format.  See comments for 
-// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData 
+// Changing the data layout of this class breaks the binary serialization format.  See comments for
+// PX_BINARY_SERIAL_VERSION.  If a modification is required, please adjust the getBinaryMetaData
 // function.  If the modification is made on a custom branch, please change PX_BINARY_SERIAL_VERSION
 // accordingly.
 //==================================================================================================
@@ -104,7 +104,7 @@ public:
 #endif
 
 	PX_INLINE		void						setOwnerClient(PxClientID inId);
-	PX_INLINE		PxClientID					getOwnerClient() const								{ return getActorCore().getOwnerClient(); }	//immutable, so this should be fine. 
+	PX_INLINE		PxClientID					getOwnerClient() const								{ return getActorCore().getOwnerClient(); }	//immutable, so this should be fine.
 
 	//---------------------------------------------------------------------------------
 	// Miscellaneous
@@ -150,7 +150,7 @@ PX_INLINE void Actor::setActorFlags(PxActorFlags v)
 	if((!aFlags.isSet(PxActorFlag::eDISABLE_SIMULATION)) && v.isSet(PxActorFlag::eDISABLE_SIMULATION) &&
 		(aType != PxActorType::eRIGID_DYNAMIC) && (aType != PxActorType::eRIGID_STATIC))
 	{
-		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__, 
+		Ps::getFoundation().error(PxErrorCode::eINVALID_PARAMETER, __FILE__, __LINE__,
 				"PxActor::setActorFlag: PxActorFlag::eDISABLE_SIMULATION is only supported by PxRigidDynamic and PxRigidStatic objects.");
 	}
 #endif
@@ -170,7 +170,7 @@ PX_INLINE void Actor::setOwnerClient(PxClientID inId)
 	}
 	else
 	{
-		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__, 
+		Ps::getFoundation().error(PxErrorCode::eINVALID_OPERATION, __FILE__, __LINE__,
 				"Attempt to set the client id when an actor is buffering");
 	}
 }
